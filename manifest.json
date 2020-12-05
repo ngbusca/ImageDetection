@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "Image Detection",
-  "version": "1.1",
+  "version": "1.2",
 
   "description": "Detect objects directly on your Browser! Hover over any image for 5 seconds, hodl on tight, see the magic happen under your eyes.",
 
@@ -13,7 +13,7 @@
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self';",
 
   "background":{
-      "scripts":["ext/tfjs", "ext/coco-ssd", "background/load-model.js"]
+      "scripts":["ext/tfjs.js", "ext/coco-ssd.js", "background/load-model.js"]
   },
 
   "content_scripts": [

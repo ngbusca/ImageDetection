@@ -7,9 +7,3 @@ cocoSsd.load().then((res) => {
     model = res;
     console.log("Model loaded");
 });
-
-/*
-browser.runtime.onMessage.addListener( (request, sender, sendResponse) => {
-        sendResponse({model:cocoSsd});
-});
-*/
