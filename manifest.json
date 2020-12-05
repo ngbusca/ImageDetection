@@ -4,7 +4,7 @@
   "name": "Image Detection",
   "version": "1.0",
 
-  "description": "Adds a red border to all webpages matching mozilla.org.",
+  "description": "Detect objects directly on your Browser! Hover over any image for 5 seconds, hodl on tight, see the magic happen under your eyes.",
 
   "icons": {
     "48": "icons/border-48.png"
@@ -19,10 +19,7 @@
   "content_scripts": [
     {
       "matches": [
-          "https://thequasar.net/*/",
-          "https://www.perfil.com/*",
-          "https://www.nytimes.com/*",
-          "https://www.digi24.ro/*"
+          "https://*/*"
       ],
       "js": ["ext/jquery-3.5.1.min.js","js/imagedetect.js"]
     }
