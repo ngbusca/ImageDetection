@@ -23,23 +23,23 @@ $(document).ready(()=>{
  };
 
  function detectObjects(img) {
-    canvas_html = `<canvas id="canvas${canvasid}" width=${img.width} height=${img.height}> </canvas>`;
-    $(canvas_html).insertAfter($(img));
 
     let imgHeight = img.height;
     let imgWidth = img.width;
-    $(img).hide();
-    const canvas = $(`#canvas${canvasid}`);
-    canvas.css('outline-style','solid');
-    canvas.css('outline-color','lightgreen');
-    canvas.css('outline-width','2px');
-    canvas.css('outline-offset','-2px');
-    const ctx = canvas[0].getContext("2d");
 
     let img_data = new Image();
     img_data.crossOrigin = "Anonymous";
 
     img_data.onload = () => {
+        $(img).hide();
+        canvas_html = `<canvas id="canvas${canvasid}" width=${img.width} height=${img.height}> </canvas>`;
+        $(canvas_html).insertAfter($(img));
+        const canvas = $(`#canvas${canvasid}`);
+        canvas.css('outline-style','solid');
+        canvas.css('outline-color','lightgreen');
+        canvas.css('outline-width','2px');
+        canvas.css('outline-offset','-2px');
+        const ctx = canvas[0].getContext("2d");
         ctx.drawImage(img_data, 0, 0, imgWidth, imgHeight);
         let imgd = ctx.getImageData(0, 0, imgWidth, imgHeight);
         
