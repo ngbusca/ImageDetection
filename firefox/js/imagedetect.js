@@ -1,4 +1,4 @@
-$(document).ready(()=>{
+$(window).on("load",()=>{
  console.log("Running Image Detection!");
 
  function drawBoxes(ctx, predictions) {
@@ -26,15 +26,18 @@ $(document).ready(()=>{
 
     let imgHeight = img.height;
     let imgWidth = img.width;
+    console.log(img);
 
     let img_data = new Image();
     img_data.crossOrigin = "Anonymous";
 
     img_data.onload = () => {
         $(img).hide();
-        canvas_html = `<canvas id="canvas${canvasid}" width=${img.width} height=${img.height}> </canvas>`;
+        canvas_html = `<canvas id="canvas${canvasid}" width=${imgWidth} height=${imgHeight}> </canvas>`;
         $(canvas_html).insertAfter($(img));
         const canvas = $(`#canvas${canvasid}`);
+        canvas.css('width', window.getComputedStyle(img).width);
+        canvas.css('height', window.getComputedStyle(img).height);
         canvas.css('outline-style','solid');
         canvas.css('outline-color','lightgreen');
         canvas.css('outline-width','2px');
@@ -56,6 +59,7 @@ $(document).ready(()=>{
 
  var selectTimeout;
  $("img").hover((e) => {
+     console.log("Mouseover", e.target);
      selectTimeout = setTimeout(() => {
         detectObjects(e.target);
      }, 5000);
