@@ -1,4 +1,4 @@
-$(document).ready(()=>{
+$(window).on("load", ()=>{
  console.log("Running Image Detection!");
 
  function drawBoxes(ctx, predictions) {
@@ -22,32 +22,27 @@ $(document).ready(()=>{
     }
  };
 
- function detectObjects(img) {
-    let imgHeight = img.height;
-    let imgWidth = img.width;
+ function detectObjects(imgTag) {
+    let imgWidth = imgTag.width;
+    let imgHeight = imgTag.height;
+    canvas_html = `<canvas id="canvas${canvasid}" width=${imgWidth} height=${imgHeight}> </canvas>`;
+    let img = $(imgTag);
+    img.hide();
+    $(canvas_html).insertAfter(imgTag);
+    const canvas = $(`#canvas${canvasid}`);
+    canvas.css('width', window.getComputedStyle(img).width);
+    canvas.css('height', window.getComputedStyle(img).height);
+    canvas.css('outline-style','solid');
+    canvas.css('outline-color','lightgreen');
+    canvas.css('outline-width','2px');
+    canvas.css('outline-offset','-2px');
+    const ctx = canvas[0].getContext("2d");
+    ctx.drawImage(imgTag, 0, 0, imgWidth, imgHeight);
 
-    let img_data = new Image();
-    img_data.crossOrigin = "Anonymous";
-    img_data.onload = () => {
-      canvas_html = `<canvas id="canvas${canvasid}" width=${img.width} height=${img.height}> </canvas>`;
-      $(canvas_html).insertAfter($(img));
-      const canvas = $(`#canvas${canvasid}`);
-      canvas.css('outline-style','solid');
-      canvas.css('outline-color','lightgreen');
-      canvas.css('outline-width','2px');
-      canvas.css('outline-offset','-2px');
-      const ctx = canvas[0].getContext("2d");
-      $(img).hide();
-      ctx.drawImage(img_data, 0, 0, imgWidth, imgHeight);
-      let imgd = ctx.getImageData(0, 0, imgWidth, imgHeight);
-      chrome.runtime.sendMessage({data:imgd.data, width:imgWidth, height:imgHeight},
-        (predictions) => {
-          drawBoxes(ctx, predictions);
-        }
-      );
-    };
-    console.log("x-origin", img_data.crossOrigin);
-    img_data.src = img.src;
+    chrome.runtime.sendMessage({url:imgTag.src, width:imgWidth, height:imgHeight}, (predictions) => {
+        console.log(predictions);
+        drawBoxes(ctx, predictions);
+    });
     canvasid += 1;
  }
 
