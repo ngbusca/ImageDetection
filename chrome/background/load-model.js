@@ -1,10 +1,16 @@
 var model = undefined;
 chrome.runtime.onMessage.addListener( (request, sender, sendResponse) => {
-    let data = Object.values(request.data);
-    let width = request.width;
-    let height = request.height;
-    let img = new ImageData(Uint8ClampedArray.from(data), width, height);
-    model.detect(img, 20, 0.3).then((predictions) => sendResponse(predictions));
+    let img = new Image();
+    img.crossOrigin = "Anonymous";
+    img.width = request.width;
+    img.height = request.height;
+    img.onload = () => {
+        model.detect(img, 20, 0.3).then((predictions) => {
+            sendResponse(predictions);
+        });
+    }
+    img.src = request.url;
+    return true;
 });
 
 cocoSsd.load().then((res) => {
